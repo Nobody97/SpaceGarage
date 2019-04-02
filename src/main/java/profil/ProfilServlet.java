@@ -95,7 +95,7 @@ public class ProfilServlet extends HttpServlet {
     private void saveProfil(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        Profil profil = this.getRequestedProfil(request);
+        
         
         // Formulareingaben prüfen
         List<String> errors = new ArrayList<>();
@@ -103,6 +103,8 @@ public class ProfilServlet extends HttpServlet {
         
         String profilFirstname = request.getParameter("profilFirstname");
         String profilLastname = request.getParameter("profilLastname");
+        
+        Profil profil = this.getRequestedProfil(request);
 
 
         if(profilFirstname != null) {
