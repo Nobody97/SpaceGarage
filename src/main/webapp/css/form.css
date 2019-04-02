@@ -15,6 +15,7 @@ Creative Commons Namensnennung 4.0 International Lizenz.
 /* Jede Spalte max. 30em breit */
 form.stacked .column {
     max-width: 30em;
+    margin: 75px auto;
 }
 
 /* Formularelemente maximal breit gestapelt */

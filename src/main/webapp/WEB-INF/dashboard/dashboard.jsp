@@ -36,7 +36,7 @@
         </div>
         
          <div class="menuitem">
-            <a href="<c:url value="/app/profil/profil.jsp"/>">Profil bearbeiten</a>
+            <a href="<c:url value="/app/profil/profil/"/>">Profil bearbeiten</a>
         </div>
 
     </jsp:attribute>

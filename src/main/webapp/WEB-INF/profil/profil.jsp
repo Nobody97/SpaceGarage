@@ -33,79 +33,31 @@
     </jsp:attribute>
 
     <jsp:attribute name="content">
-        <%-- Suchfilter --%>
-        <form method="GET" class="horizontal" id="search">
-            <input type="text" name="search_text" value="${param.search_text}" placeholder="Beschreibung"/>
-
-            <select name="search_category">
-                <option value="">Alle Kategorien</option>
-
-                <c:forEach items="${categories}" var="category">
-                    <option value="${category.id}" ${param.search_category == category.id ? 'selected' : ''}>
-                        <c:out value="${category.name}" />
-                    </option>
-                </c:forEach>
-            </select>
-
-            <select name="search_status">
-                <option value="">Alle Stati</option>
-
-                <c:forEach items="${statuses}" var="status">
-                    <option value="${status}" ${param.search_status == status ? 'selected' : ''}>
-                        <c:out value="${status.label}"/>
-                    </option>
-                </c:forEach>
-            </select>
-
-            <button class="icon-search" type="submit">
-                Suchen
-            </button>
-        </form>
-
-        <%-- Gefundene Aufgaben --%>
-        <c:choose>
-            <c:when test="${empty tasks}">
-                <p>
-                    Es wurden keine Aufgaben gefunden. 🐈
-                </p>
-            </c:when>
-            <c:otherwise>
-                <jsp:useBean id="utils" class="dhbwka.wwi.vertsys.javaee.spacegarage.common.web.WebUtils"/>
+        <form method="post" class="stacked">
+                <div class="column">
+                    <%-- CSRF-Token --%>
+                    <input type="hidden" name="csrf_token" value="${csrf_token}">
                 
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Bezeichnung</th>
-                            <th>Kategorie</th>
-                            <th>Eigentümer</th>
-                            <th>Status</th>
-                            <th>Fällig am</th>
-                        </tr>
-                    </thead>
-                    <c:forEach items="${tasks}" var="task">
-                        <tr>
-                            <td>
-                                <a href="<c:url value="/app/tasks/task/${task.id}/"/>">
-                                    <c:out value="${task.shortText}"/>
-                                </a>
-                            </td>
-                            <td>
-                                <c:out value="${task.category.name}"/>
-                            </td>
-                            <td>
-                                <c:out value="${task.owner.username}"/>
-                            </td>
-                            <td>
-                                <c:out value="${task.status.label}"/>
-                            </td>
-                            <td>
-                                <c:out value="${utils.formatDate(task.dueDate)}"/>
-                                <c:out value="${utils.formatTime(task.dueTime)}"/>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                </table>
-            </c:otherwise>
-        </c:choose>
+                    <%-- Eingabefelder --%>
+                    <label for="j_firstname">
+                        
+                        Vorname:
+                        <span class="required">*</span>
+                    </label>
+                    <input type="text" name="profilFirstname" value = "${user.firstname}">
+
+                    <label for="j_lastname">
+                        Name:
+                        <span class="required">*</span>
+                    </label>
+                    <input type="text" name="profilLastname" value="${user.lastname}">
+
+                    <%-- Button zum Abschicken --%>
+                    <button type="submit">
+                        Speichern
+                    </button>
+                </div>
+            </form>
+
     </jsp:attribute>
 </template:base>

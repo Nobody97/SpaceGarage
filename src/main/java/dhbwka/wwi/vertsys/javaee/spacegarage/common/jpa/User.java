@@ -41,6 +41,8 @@ public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
+    
+   
 
     @Id
     @Column(name = "USERNAME", length = 64)
@@ -49,13 +51,13 @@ public class User implements Serializable {
     private String username;
     
     @Column(name = "FIRSTNAME", length = 64)
-    @Size(min = 0, max = 64, message = "Der Benutzername muss zwischen fünf und 64 Zeichen lang sein.")
-    @NotNull(message = "Der Benutzername darf nicht leer sein.")
+    @Size(min = 5, max = 64, message = "Der Vorname muss zwischen fünf und 64 Zeichen lang sein.")
+    @NotNull(message = "Der Vorname darf nicht leer sein.")
     private String firstname;
     
     @Column(name = "LASTNAME", length = 64)
-    @Size(min = 0, max = 64, message = "Der Benutzername muss zwischen fünf und 64 Zeichen lang sein.")
-    @NotNull(message = "Der Benutzername darf nicht leer sein.")
+    @Size(min = 5, max = 64, message = "Der Name muss zwischen fünf und 64 Zeichen lang sein.")
+    @NotNull(message = "Der Name darf nicht leer sein.")
     private String lastname;
     
     public class Password {
@@ -72,17 +74,8 @@ public class User implements Serializable {
     @ElementCollection
     @CollectionTable(
             name = "SPACEGARAGE_USER_GROUP",
-            joinColumns = @JoinColumn(name = "USERNAME")
-            
-            
+            joinColumns = @JoinColumn(name = "USERNAME")                
     )
-    /*@AttributeOverrides({
-        @AttributeOverride(name = "FIRSTNAME", column = @Column (name = "SPACEGARAGE_USER_GROUP_FIRSTNAME")),
-        @AttributeOverride(name = "LASTNAME", column = @Column (name = "SPACEGARAGE_USER_GROUP_LASTNAME"))
-        }) */
-    
-    
-    
     @Column(name = "GROUPNAME")
     List<String> groups = new ArrayList<>();
 
@@ -93,7 +86,15 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(String username, String password) {
+    public User(String username, String firstname, String lastname, String password) {
+        this.username = username;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.password.password = password;
+        this.passwordHash = this.hashPassword(password);
+    }
+    
+    public User (String username, String password) {
         this.username = username;
         this.password.password = password;
         this.passwordHash = this.hashPassword(password);
@@ -115,6 +116,22 @@ public class User implements Serializable {
 
     public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
+    }
+    
+    public String getFirstname(){
+        return firstname;
+    }
+    
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+    
+    public String getLastname(){
+        return lastname;
+    }
+    
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
     //</editor-fold>
 
