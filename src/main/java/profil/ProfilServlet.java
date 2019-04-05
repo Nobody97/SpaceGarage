@@ -43,7 +43,6 @@ public class ProfilServlet extends HttpServlet {
     @EJB
     UserBean userBean;
     
-    User user;
     
     @EJB
     ValidationBean validationBean;
@@ -67,21 +66,16 @@ public class ProfilServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // Angeforderte Aktion ausführen
-        String action = request.getParameter("action");
-
-        if (action == null) {
-            action = "";
-        }
-
-        switch (action) {
-            case "save":
-                this.saveProfil(request, response);
-                break;
-            case "delete":
-                this.deleteProfil(request, response);
-                break;
-        }
+    User user = userBean.getCurrentUser();
+        
+        String firstname = request.getParameter("profilFirstname");
+        String lastname = request.getParameter("profilLastname");
+        user.setFirstname(firstname);
+        user.setLastname(lastname);
+        userBean.update(user);
+        response.sendRedirect(WebUtils.appUrl(request, "/app/profil/profil/"));
+        
+        
     }
 
     /**

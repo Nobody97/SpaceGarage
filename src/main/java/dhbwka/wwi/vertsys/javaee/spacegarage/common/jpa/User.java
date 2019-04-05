@@ -16,8 +16,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
@@ -41,26 +39,25 @@ public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
-    
-   
 
     @Id
     @Column(name = "USERNAME", length = 64)
     @Size(min = 5, max = 64, message = "Der Benutzername muss zwischen fünf und 64 Zeichen lang sein.")
     @NotNull(message = "Der Benutzername darf nicht leer sein.")
     private String username;
-    
+
     @Column(name = "FIRSTNAME", length = 64)
     @Size(min = 5, max = 64, message = "Der Vorname muss zwischen fünf und 64 Zeichen lang sein.")
     @NotNull(message = "Der Vorname darf nicht leer sein.")
     private String firstname;
-    
+
     @Column(name = "LASTNAME", length = 64)
     @Size(min = 5, max = 64, message = "Der Name muss zwischen fünf und 64 Zeichen lang sein.")
     @NotNull(message = "Der Name darf nicht leer sein.")
     private String lastname;
-    
+
     public class Password {
+
         @Size(min = 6, max = 64, message = "Das Passwort muss zwischen sechs und 64 Zeichen lang sein.")
         public String password = "";
     }
@@ -71,10 +68,10 @@ public class User implements Serializable {
     @NotNull(message = "Das Passwort darf nicht leer sein.")
     private String passwordHash;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(
             name = "SPACEGARAGE_USER_GROUP",
-            joinColumns = @JoinColumn(name = "USERNAME")                
+            joinColumns = @JoinColumn(name = "USERNAME")
     )
     @Column(name = "GROUPNAME")
     List<String> groups = new ArrayList<>();
@@ -93,8 +90,8 @@ public class User implements Serializable {
         this.password.password = password;
         this.passwordHash = this.hashPassword(password);
     }
-    
-    public User (String username, String password) {
+
+    public User(String username, String password) {
         this.username = username;
         this.password.password = password;
         this.passwordHash = this.hashPassword(password);
@@ -117,19 +114,19 @@ public class User implements Serializable {
     public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
     }
-    
-    public String getFirstname(){
+
+    public String getFirstname() {
         return firstname;
     }
-    
+
     public void setFirstname(String firstname) {
         this.firstname = firstname;
     }
-    
-    public String getLastname(){
+
+    public String getLastname() {
         return lastname;
     }
-    
+
     public void setLastname(String lastname) {
         this.lastname = lastname;
     }
@@ -174,10 +171,10 @@ public class User implements Serializable {
      * Berechnet einen Hashwert aus dem übergebenen Passwort und legt ihn im
      * Feld passwordHash ab. Somit wird das Passwort niemals als Klartext
      * gespeichert.
-     * 
+     *
      * Gleichzeitig wird das Passwort im nicht gespeicherten Feld password
-     * abgelegt, um durch die Bean Validation Annotationen überprüft werden
-     * zu können.
+     * abgelegt, um durch die Bean Validation Annotationen überprüft werden zu
+     * können.
      *
      * @param password Neues Passwort
      */
@@ -188,12 +185,13 @@ public class User implements Serializable {
 
     /**
      * Nur für die Validierung bei einer Passwortänderung!
+     *
      * @return Neues, beim Speichern gesetztes Passwort
      */
     public Password getPassword() {
         return this.password;
     }
-    
+
     /**
      * Prüft, ob das übergebene Passwort korrekt ist.
      *
@@ -212,9 +210,11 @@ public class User implements Serializable {
     public List<String> getGroups() {
         List<String> groupsCopy = new ArrayList<>();
 
-        this.groups.forEach((groupname) -> {
-            groupsCopy.add(groupname);
-        });
+        if (this.groups != null) {
+            this.groups.forEach((groupname) -> {
+                groupsCopy.add(groupname);
+            });
+        }
 
         return groupsCopy;
     }

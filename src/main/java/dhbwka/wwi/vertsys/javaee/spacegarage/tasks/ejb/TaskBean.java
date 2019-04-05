@@ -88,4 +88,7 @@ public class TaskBean extends EntityBean<Task, Long> {
         
         return em.createQuery(query).getResultList();
     }
+    
+
+
 }

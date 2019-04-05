@@ -46,7 +46,7 @@ public class CategoryListServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        
         // Alle vorhandenen Kategorien ermitteln
         request.setAttribute("categories", this.categoryBean.findAllSorted());
 
@@ -62,7 +62,7 @@ public class CategoryListServlet extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        
         // Angeforderte Aktion ausführen        
         String action = request.getParameter("action");
 

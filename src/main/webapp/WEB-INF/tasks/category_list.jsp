@@ -33,7 +33,7 @@
     </jsp:attribute>
 
     <jsp:attribute name="content">
-        <form method="post" class="stacked">
+        <form method="post" accept-charset="ISO-8859-1" class="stacked">
             <%-- CSRF-Token --%>
             <input type="hidden" name="csrf_token" value="${csrf_token}">
 

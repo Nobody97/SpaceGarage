@@ -33,29 +33,35 @@
     </jsp:attribute>
 
     <jsp:attribute name="content">
-        <form method="post" class="stacked">
+        <form method="post" accept-charset="ISO-8859-1" class="stacked">
                 <div class="column">
                     <%-- CSRF-Token --%>
                     <input type="hidden" name="csrf_token" value="${csrf_token}">
-                
+                    <div class ="profil">
                     <%-- Eingabefelder --%>
-                    <label for="j_firstname">
+                    <label for="profilFirstname">
                         
                         Vorname:
                         <span class="required">*</span>
+                         <input type="text" name="profilFirstname" value = "${user.firstname}">
                     </label>
-                    <input type="text" name="profilFirstname" value = "${user.firstname}">
+             
 
-                    <label for="j_lastname">
+                    <label for="profilLastname">
                         Name:
                         <span class="required">*</span>
-                    </label>
-                    <input type="text" name="profilLastname" value="${user.lastname}">
+                        <input type="text" name="profilLastname" value="${user.lastname}">
 
+                    </label>
+                        <br></br>
                     <%-- Button zum Abschicken --%>
-                    <button type="submit">
+                    <center>
+                    <button type="submit" class="profilSave">
                         Speichern
                     </button>
+                    </center>
+                    </div>
+                   
                 </div>
             </form>
 
