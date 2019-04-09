@@ -15,7 +15,7 @@
 
 <template:base>
     <jsp:attribute name="title">
-        Liste der Aufgaben
+        Liste der Reparaturen
     </jsp:attribute>
 
     <jsp:attribute name="head">
